@@ -5,9 +5,11 @@ from setuptools import find_packages, setup
 
 dependencies = ['nibabel']
 
+version_number = '0.2.2'
+
 setup(
     name='ecatdump',
-    version='0.1.0',
+    version=version_number,
     url='https://github.com/bendhouseart/ecatdump',
     license='BSD',
     author='Anthony Galassi',

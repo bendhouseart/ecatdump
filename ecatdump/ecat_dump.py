@@ -11,6 +11,7 @@ class EcatDump:
         self.ecat_header = {}
         self.subheaders = []
         self.ecat_info = {}
+        self.affine = {}
         if os.path.isfile(ecat_file):
             self.ecat_file = ecat_file
         else:
@@ -31,8 +32,10 @@ class EcatDump:
 
         self.extract_header_info()
         self.extract_subheaders()
+        self.extract_affine()
         self.ecat_info['header'] = self.ecat_header
         self.ecat_info['subheaders'] = self.subheaders
+        self.ecat_info['affine'] = self.affine
 
         if not nifti_file:
             self.nifti_file = os.path.splitext(self.ecat_file)[0] + ".nii.gz"
@@ -41,6 +44,10 @@ class EcatDump:
 
     def display_ecat_and_nifti(self):
         print(f"ecat is {self.ecat_file}\nnifti is {self.nifti_file}")
+
+    def extract_affine(self):
+        self.affine = self.ecat.affine.tolist()
+
 
     def extract_header_info(self):
         """
@@ -75,6 +82,10 @@ class EcatDump:
                     'dtype': self.transform_from_bytes(subheader_dtypes[i][1])}
 
             self.subheaders.append(holder)
+
+    def show_affine(self):
+        for row in self.affine:
+            print(row)
 
     def show_header(self):
         for key, value in self.ecat_header.items():

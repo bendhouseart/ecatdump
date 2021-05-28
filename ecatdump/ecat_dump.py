@@ -65,9 +65,16 @@ class EcatDump:
         # collect subheaders
         subheaders = self.ecat.dataobj._subheader.subheaders
         for subheader in subheaders:
-            cleaned_of_bytes = subheader.tolist()
-            cleaned_of_bytes = [self.transform_from_bytes(entry) for entry in cleaned_of_bytes]
-            self.subheaders.append(cleaned_of_bytes)
+            holder = {}
+            subheader_data = subheader.tolist()
+            subheader_dtypes = subheader.dtype.descr
+
+            for i in range(len(subheader_data)):
+                holder[subheader_dtypes[i][0]] = {
+                    'value': self.transform_from_bytes(subheader_data[i]),
+                    'dtype': self.transform_from_bytes(subheader_dtypes[i][1])}
+
+            self.subheaders.append(holder)
 
     def show_header(self):
         for key, value in self.ecat_header.items():

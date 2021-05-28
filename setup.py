@@ -12,7 +12,8 @@ setup(
     license='BSD',
     author='Anthony Galassi',
     author_email='28850131+bendhouseart@users.noreply.github.com',
-    description='This tool provides similar utility and output to ecat images that dcmdump from the dcmtk does for dicom images.',
+    description='This tool provides similar utility and output to ecat images \
+                that dcmdump from the dcmtk does for dicom images.',
     long_description=__doc__,
     packages=find_packages(exclude=['tests', '.git']),
     include_package_data=True,

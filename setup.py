@@ -7,7 +7,7 @@ dependencies = ['nibabel']
 
 setup(
     name='ecatdump',
-    version='0.2.0',
+    version='0.1.0',
     url='https://github.com/bendhouseart/ecatdump',
     license='BSD',
     author='Anthony Galassi',

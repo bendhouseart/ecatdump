@@ -1,6 +1,7 @@
 import re
 import nibabel
 import os
+import json
 from ecatdump.helper_functions import compress, decompress
 
 
@@ -8,6 +9,8 @@ class EcatDump:
 
     def __init__(self, ecat_file, nifti_file=None, decompress=True):
         self.ecat_header = {}
+        self.subheaders = []
+        self.ecat_info = {}
         if os.path.isfile(ecat_file):
             self.ecat_file = ecat_file
         else:
@@ -27,6 +30,9 @@ class EcatDump:
             raise err
 
         self.extract_header_info()
+        self.extract_subheaders()
+        self.ecat_info['header'] = self.ecat_header
+        self.ecat_info['subheaders'] = self.subheaders
 
         if not nifti_file:
             self.nifti_file = os.path.splitext(self.ecat_file)[0] + ".nii.gz"
@@ -55,6 +61,29 @@ class EcatDump:
 
         return self.ecat_header
 
+    def extract_subheaders(self):
+        # collect subheaders
+        subheaders = self.ecat.dataobj._subheader.subheaders
+        for subheader in subheaders:
+            cleaned_of_bytes = subheader.tolist()
+            cleaned_of_bytes = [self.transform_from_bytes(entry) for entry in cleaned_of_bytes]
+            self.subheaders.append(cleaned_of_bytes)
+
     def show_header(self):
         for key, value in self.ecat_header.items():
             print(f"{key}: {value}")
+
+    def show_subheaders(self):
+        for subheader in self.subheaders:
+            print(subheader)
+
+    def json_out(self):
+        temp_json = json.dumps(self.ecat_info, indent=4)
+        print(temp_json)
+
+    @staticmethod
+    def transform_from_bytes(bytes_like):
+        if type(bytes_like) is bytes:
+            return bytes_like.decode()
+        else:
+            return bytes_like

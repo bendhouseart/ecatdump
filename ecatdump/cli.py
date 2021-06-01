@@ -29,7 +29,7 @@ def main():
         sys.exit(0)
     if cli_args.dump:
         ecat.show_header()
-    if args.affine():
+    if cli.args.affine():
         ecat.show_affine()
     if cli_args.subheader:
         ecat.show_subheaders()

@@ -5,7 +5,7 @@ from setuptools import find_packages, setup
 
 dependencies = ['nibabel']
 
-version_number = '0.2.2'
+version_number = '0.2.3'
 
 setup(
     name='ecatdump',

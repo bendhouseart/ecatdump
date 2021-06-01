@@ -30,9 +30,12 @@ class EcatDump:
             print("\nFailed to load ecat image.\n")
             raise err
 
+        # extract ecat info
         self.extract_header_info()
         self.extract_subheaders()
         self.extract_affine()
+
+        # aggregate ecat info into ecat_info dictionary
         self.ecat_info['header'] = self.ecat_header
         self.ecat_info['subheaders'] = self.subheaders
         self.ecat_info['affine'] = self.affine
@@ -47,7 +50,6 @@ class EcatDump:
 
     def extract_affine(self):
         self.affine = self.ecat.affine.tolist()
-
 
     def extract_header_info(self):
         """

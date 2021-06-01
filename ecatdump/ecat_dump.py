@@ -59,13 +59,22 @@ class EcatDump:
 
         header_entries = [entry for entry in self.ecat.header]
         for name in header_entries:
+
             value = self.ecat.header[name].tolist()
+            value_not_to_list = self.ecat.header[name]
+
             # convert to string if value is type bytes
             if type(value) is bytes:
                 try:
                     value = value.decode("utf-8")
                 except UnicodeDecodeError as err:
                     print(f"Error decoding header entry {name}: {value}\n {value} is type: {type(value)}")
+                    print(f"Attempting to decode {value} skipping invalid bytes.")
+
+                    if err.reason == 'invalid start byte':
+                        value = value.decode("utf-8", "ignore")
+                        print(f"Decoded {self.ecat.header[name].tolist()} to {value}.")
+
             self.ecat_header[name] = value
 
         return self.ecat_header

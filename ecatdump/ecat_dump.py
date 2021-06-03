@@ -12,6 +12,9 @@ class EcatDump:
         self.subheaders = []
         self.ecat_info = {}
         self.affine = {}
+        self.frame_start_times = []
+        self.frame_durations = []
+        self.decay_factors = []
         if os.path.isfile(ecat_file):
             self.ecat_file = ecat_file
         else:
@@ -106,18 +109,17 @@ class EcatDump:
         for subheader in self.subheaders:
             print(subheader)
 
-    def make_sidecar(self):
+    def populate_sidecar(self):
         """
         creates a side car json with any bids relevant information within the ecat.
         """
-
         # collect frame time start
+        for header in self.subheaders:
+            self.frame_start_times.append(header['frame_start_time']['value'])
+            self.frame_durations.append(header['frame_duration']['value'])
+            self.decay_factors.append(header['decay_corr_fctr']['value'])
 
-        # collect frame duration
 
-        # collect decay factor
-
-        pass
 
     def json_out(self):
         temp_json = json.dumps(self.ecat_info, indent=4)

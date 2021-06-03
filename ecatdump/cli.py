@@ -17,6 +17,7 @@ def cli():
         Output header and subheader info as JSON to stdout, overrides all other options""")
     parser.add_argument("--nifti", "-n", metavar="file_name", help="Name of nifti output file", required=False)
     parser.add_argument("--subheader", '-s', help="Display subheaders", action="store_true", default=False)
+    parser.add_argument("--sidecar", action="store_true")
     args = parser.parse_args()
     return args
 
@@ -33,7 +34,8 @@ def main():
         ecat.show_affine()
     if cli_args.subheader:
         ecat.show_subheaders()
-
+    if cli_args.sidecar:
+        ecat.populate_sidecar()
 
 if __name__ == "__main__":
     main()

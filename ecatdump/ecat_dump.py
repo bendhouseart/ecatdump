@@ -106,6 +106,19 @@ class EcatDump:
         for subheader in self.subheaders:
             print(subheader)
 
+    def make_sidecar(self):
+        """
+        creates a side car json with any bids relevant information within the ecat.
+        """
+
+        # collect frame time start
+
+        # collect frame duration
+
+        # collect decay factor
+
+        pass
+
     def json_out(self):
         temp_json = json.dumps(self.ecat_info, indent=4)
         print(temp_json)

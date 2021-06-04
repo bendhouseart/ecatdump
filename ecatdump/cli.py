@@ -12,7 +12,7 @@ def cli():
     parser.add_argument("ecat", metavar="ecat_file", help="Ecat image to collect info from.")
     parser.add_argument("--affine", "-a", help="Show affine matrix", action="store_true", default=False)
     parser.add_argument("--convert", "-c", help="If supplied will attempt conversion.")
-    parser.add_argument("--dump", "-d", help="Dump information in Header", action="store_true", default=True)
+    parser.add_argument("--dump", "-d", help="Dump information in Header", action="store_true", default=False)
     parser.add_argument("--json", "-j", action="store_true", default=False, help="""
         Output header and subheader info as JSON to stdout, overrides all other options""")
     parser.add_argument("--nifti", "-n", metavar="file_name", help="Name of nifti output file", required=False)
@@ -36,6 +36,8 @@ def main():
         ecat.show_subheaders()
     if cli_args.sidecar:
         ecat.populate_sidecar()
+        ecat.show_sidecar()
+
 
 if __name__ == "__main__":
     main()

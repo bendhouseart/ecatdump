@@ -3,7 +3,8 @@ import nibabel
 import os
 import json
 from ecatdump.helper_functions import compress, decompress
-from ecatdump.sidecar import sidecar_template
+from ecatdump.sidecar import sidecar_template_full, sidecar_template_short
+from dateutil import parser
 
 
 class EcatDump:
@@ -16,7 +17,8 @@ class EcatDump:
         self.frame_start_times = []
         self.frame_durations = []
         self.decay_factors = []
-        self.sidecar_template = sidecar_template
+        self.sidecar_template = sidecar_template_full
+        self.sidecar_template_short = sidecar_template_short
         if os.path.isfile(ecat_file):
             self.ecat_file = ecat_file
         else:
@@ -122,8 +124,56 @@ class EcatDump:
             self.decay_factors.append(header['decay_corr_fctr']['value'])
 
         self.sidecar_template['DecayFactor'] = self.decay_factors
-        self.sidecar_template['FrameTime'] = self.frame_start_times
+        self.sidecar_template['FrameTimesStart'] = self.frame_start_times
         self.sidecar_template['FrameDuration'] = self.frame_durations
+
+        # collect scanner information from header if available
+
+
+        # collect and convert start times for acquisition/time zero?
+        scan_start_time = self.ecat_header.get('scan_start_time', None)
+        if scan_start_time:
+            parsed_date = parser.parse(scan_start_time)
+            scan_start_time = parsed_date.strftime("%H:%M:%S")
+            self.sidecar_template['AcquisitionTime'] = scan_start_time
+            self.sidecar_template['ScanStart'] = scan_start_time
+
+        # collect dose start time
+        dose_start_time = self.ecat_header.get('dose_start_time', None)
+        if dose_start_time:
+            parsed_dose_time = parser.parse(dose_start_time)
+            self.sidecar_template['PharmaceuticalDoseTime'] = parsed_dose_time
+
+
+
+
+        # if decay correction exists mark decay correction boolean as true
+        if len(self.decay_factors) > 0:
+            self.sidecar_template['ImageDecayCorrected'] = "true"
+
+    def prune_sidecar(self):
+        """
+        Eliminate unpopulated fields in sidecar while leaving in mandatory fields even if they are unpopulated.
+        """
+        short_fields = list(self.sidecar_template_short.keys())
+        full_fields = list(self.sidecar_template)
+        exclude_list = []
+        for field, value in self.sidecar_template.items():
+            if value:
+                exclude_list.append(field)
+
+        exclude_list = exclude_list + short_fields
+
+        destroy_list = set(full_fields) - set(exclude_list)
+
+        destroyed = []
+        for to_be_destroyed in destroy_list:
+            destroyed.append(self.sidecar_template.pop(to_be_destroyed)
+
+        return destroyed
+
+    def show_sidecar(self):
+        print(json.dumps(self.sidecar_template, indent=4))
 
     def json_out(self):
         temp_json = json.dumps(self.ecat_info, indent=4)

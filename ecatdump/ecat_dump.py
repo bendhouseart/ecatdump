@@ -3,6 +3,7 @@ import nibabel
 import os
 import json
 from ecatdump.helper_functions import compress, decompress
+from ecatdump.sidecar import sidecar_template
 
 
 class EcatDump:
@@ -15,6 +16,7 @@ class EcatDump:
         self.frame_start_times = []
         self.frame_durations = []
         self.decay_factors = []
+        self.sidecar_template = sidecar_template
         if os.path.isfile(ecat_file):
             self.ecat_file = ecat_file
         else:
@@ -119,7 +121,9 @@ class EcatDump:
             self.frame_durations.append(header['frame_duration']['value'])
             self.decay_factors.append(header['decay_corr_fctr']['value'])
 
-
+        self.sidecar_template['DecayFactor'] = self.decay_factors
+        self.sidecar_template['FrameTime'] = self.frame_start_times
+        self.sidecar_template['FrameDuration'] = self.frame_durations
 
     def json_out(self):
         temp_json = json.dumps(self.ecat_info, indent=4)

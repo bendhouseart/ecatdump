@@ -1,3 +1,4 @@
+import datetime
 import re
 import nibabel
 import os
@@ -5,6 +6,15 @@ import json
 from ecatdump.helper_functions import compress, decompress
 from ecatdump.sidecar import sidecar_template_full, sidecar_template_short
 from dateutil import parser
+
+
+def parse_this_date(date_like_object):
+    if type(date_like_object) is int:
+        parsed_date = datetime.datetime.fromtimestamp(date_like_object)
+    else:
+        parsed_date = parser.parse(date_like_object)
+
+    return parsed_date.strftime("%H:%M:%S")
 
 
 class EcatDump:
@@ -129,23 +139,18 @@ class EcatDump:
 
         # collect scanner information from header if available
 
-
         # collect and convert start times for acquisition/time zero?
         scan_start_time = self.ecat_header.get('scan_start_time', None)
         if scan_start_time:
-            parsed_date = parser.parse(scan_start_time)
-            scan_start_time = parsed_date.strftime("%H:%M:%S")
+            scan_start_time = parse_this_date(scan_start_time)
             self.sidecar_template['AcquisitionTime'] = scan_start_time
             self.sidecar_template['ScanStart'] = scan_start_time
 
         # collect dose start time
         dose_start_time = self.ecat_header.get('dose_start_time', None)
         if dose_start_time:
-            parsed_dose_time = parser.parse(dose_start_time)
+            parsed_dose_time = parse_this_date(dose_start_time)
             self.sidecar_template['PharmaceuticalDoseTime'] = parsed_dose_time
-
-
-
 
         # if decay correction exists mark decay correction boolean as true
         if len(self.decay_factors) > 0:
@@ -168,11 +173,12 @@ class EcatDump:
 
         destroyed = []
         for to_be_destroyed in destroy_list:
-            destroyed.append(self.sidecar_template.pop(to_be_destroyed)
+            destroyed.append(self.sidecar_template.pop(to_be_destroyed))
 
         return destroyed
 
     def show_sidecar(self):
+        self.prune_sidecar()
         print(json.dumps(self.sidecar_template, indent=4))
 
     def json_out(self):

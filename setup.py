@@ -8,7 +8,7 @@ dependencies = ['nibabel']
 version_number = '0.2.6'
 
 setup(
-    name='ecatdump',
+    name='ecat_dump',
     version=version_number,
     url='https://github.com/bendhouseart/ecatdump',
     license='BSD',
@@ -24,7 +24,7 @@ setup(
     install_requires=dependencies,
     entry_points={
         'console_scripts': [
-            'ecatdump = ecatdump.cli:main',
+            'ecat_dump = ecat_dump.cli:main',
         ],
     },
     classifiers=[

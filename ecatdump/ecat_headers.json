@@ -926,7 +926,7 @@
       {
         "byte": 128,
         "variable_name": "TRANSM_SOURCE_TYPE",
-        "type": "Integer 2",
+        "type": "Integer*2",
         "comment": "Enumerated type (SRC_NONE, _RRING, _RING, _ROD, _RROD)"
       },
       {
@@ -1197,127 +1197,127 @@
       {
         "byte": 0,
         "variable_name": "DATA_TYPE",
-        "type:": "Integer*2",
+        "type": "Integer*2",
         "comment": "Enumerated type (DTYPE_BYTES, _I2, _I4, _VAXR4, _SUNFL, _SUNIN)"
       },
       {
         "byte": 2,
         "variable_name": "NUM_DIMENSIONS",
-        "type:": "Integer*2",
+        "type": "Integer*2",
         "comment": "Number of dimensions"
       },
       {
         "byte": 4,
         "variable_name": "ATTENUATION_TYPE",
-        "type:": "Integer*2",
+        "type": "Integer*2",
         "comment": "E. type (ATTEN_NONE, _MEAS, _CALC)"
       },
       {
         "byte": 6,
         "variable_name": "NUM_R_ELEMENTS",
-        "type:": "Integer*2",
+        "type": "Integer*2",
         "comment": "Total elements collected (x dimension)"
       },
       {
         "byte": 8,
         "variable_name": "NUM_ANGLES",
-        "type:": "Integer*2",
+        "type": "Integer*2",
         "comment": "Total views collected (y dimensions)"
       },
       {
         "byte": 10,
         "variable_name": "NUM_Z_ELEMENTS",
-        "type:": "Integer*2",
+        "type": "Integer*2",
         "comment": "Total elements collected (z dimension)"
       },
       {
         "byte": 12,
         "variable_name": "RING_DIFFERENCE",
-        "type:": "Integer*2",
+        "type": "Integer*2",
         "comment": "Maximum acceptance angle."
       },
       {
         "byte": 14,
         "variable_name": "X_RESOLUTION",
-        "type:": "Real*4",
+        "type": "Real*4",
         "comment": "Resolution in the x dimension (in cm)"
       },
       {
         "byte": 18,
         "variable_name": "Y_RESOLUTION",
-        "type:": "Real*4",
+        "type": "Real*4",
         "comment": "Resolution in the y dimension (in cm)"
       },
       {
         "byte": 22,
         "variable_name": "Z_RESOLUTION",
-        "type:": "Real*4",
+        "type": "Real*4",
         "comment": "Resolution in the z dimension (in cm)"
       },
       {
         "byte": 26,
         "variable_name": "W_RESOLUTION",
-        "type:": "Real*4",
+        "type": "Real*4",
         "comment": "TBD"
       },
       {
         "byte": 30,
         "variable_name": "SCALE_FACTOR",
-        "type:": "Real*4",
+        "type": "Real*4",
         "comment": "Attenuation Scale Factor"
       },
       {
         "byte": 34,
         "variable_name": "X_OFFSET",
-        "type:": "Real*4",
+        "type": "Real*4",
         "comment": "Ellipse offset in x axis from center (in cm.)"
       },
       {
         "byte": 38,
         "variable_name": "Y_OFFSET",
-        "type:": "Real*4",
+        "type": "Real*4",
         "comment": "Ellipse offset in y axis from center (in cm.)"
       },
       {
         "byte": 42,
         "variable_name": "X_RADIUS",
-        "type:": "Real*4",
+        "type": "Real*4",
         "comment": "Ellipse radius in x axis (in cm.)"
       },
       {
         "byte": 46,
         "variable_name": "Y_RADIUS",
-        "type:": "Real*4",
+        "type": "Real*4",
         "comment": "Ellipse radius in y axis (in cm.)"
       },
       {
         "byte": 50,
         "variable_name": "TILT_ANGLE",
-        "type:": "Real*4",
+        "type": "Real*4",
         "comment": "Tilt angel of the ellipse (in degrees)"
       },
       {
         "byte": 54,
         "variable_name": "ATTENUATION_COEFF",
-        "type:": "Real*4",
+        "type": "Real*4",
         "comment": "M u-absorption coefficient (in cm^-1)"
       },
       {
         "byte": 58,
         "variable_name": "ATTENUATION_MIN",
-        "type:": "Real*4",
+        "type": "Real*4",
         "comment": "Minimum value in the attenuation data"
       },
       {
         "byte": 62,
         "variable_name": "ATTENUATION_MAX",
-        "type:": "Real*4",
+        "type": "Real*4",
         "comment": "Maximum value in the attentuation data"
       },
       {
         "byte": 66,
         "variable_name": "SKULL_THICKNESS",
-        "type:": "Real*4",
+        "type": "Real*4",
         "comment": "Skull thickness in cm"
       },
       {
@@ -2162,37 +2162,37 @@
       },
       {
         "byte": 152,
-        "variabel_name": "RING_DTCOR2(32)",
+        "variable_name": "RING_DTCOR2(32)",
         "type": "Real*4",
         "comment": "Second “per ring” dead time correction coefficient"
       },
       {
         "byte": 280,
-        "variabel_name": "CRYSTAL_DTCOR(8)",
+        "variable_name": "CRYSTAL_DTCOR(8)",
         "type": "Real*4",
         "comment": "Dead time correction factors for transaxial crystals"
       },
       {
         "byte": 312,
-        "variabel_name": "SPAN",
+        "variable_name": "SPAN",
         "type": "Integer*2",
         "comment": "Axial compression specifier (number of ring differences included in each segment)"
       },
       {
         "byte": 314,
-        "variabel_name": "MAX_RING_DIFF",
+        "variable_name": "MAX_RING_DIFF",
         "type": "Integer*2",
         "comment": "Maximum ring difference acquired"
       },
       {
         "byte": 316,
-        "variabel_name": "FILL(48)",
+        "variable_name": "FILL(48)",
         "type": "Integer*2",
         "comment": "CTI Reserved space (96 bytes)"
       },
       {
         "byte": 412,
-        "variabel_name": "FILL(50)",
+        "variable_name": "FILL(50)",
         "type": "Integer*2",
         "comment": "User Reserved space (100 bytes) Note: Use highest bytes first"
       }

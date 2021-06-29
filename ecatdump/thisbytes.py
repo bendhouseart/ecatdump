@@ -38,9 +38,14 @@ def read_bytes(bytes_to_read: bytes, byte_start: int, byte_stop: int, byte_type)
     # attempt to decode the bytes
 
 def get_buffer_size(data_type, variable_name):
+
     # ecat 6.X does stuff in a weird way
-    if len(re.findall(r'^.*?\([^\d]*(\d+)[^\d]*\).*$', variable_name)) > 0:
-        fill_scalar = int(re.findall(r'\d+', variable_name)[0])
+    #if len(re.findall(r'^.*?\([^\d]*(\d+)[^\d]*\).*$', variable_name)) > 0:
+    #    fill_scalar = int(re.findall(r'\d+', variable_name)[0])
+    first_split = variable_name.split('(')
+    if len(first_split) == 2:
+        fill_scalar = int(first_split[1][:-1])
+    
     else:
         fill_scalar = 1
     
@@ -59,4 +64,5 @@ if __name__ == "__main__":
             print(each.get('byte'), each.get('variable_name'), each.get('type'), get_buffer_size(each.get('type'), each.get('variable_name')), byte_position)
             if byte_position != each.get('byte'):
                 print(f"Mismatch in {header} between byte position {each.get('byte')} and calculated position {byte_position}.")
+                paren_error = re.findall(r'^.*?\([^\d]*(\d+)[^\d]*\).*$', each.get('variable_name'))
             byte_position = get_buffer_size(each['type'], each['variable_name']) + byte_position

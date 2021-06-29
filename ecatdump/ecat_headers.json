@@ -2380,7 +2380,7 @@
       },
       {
         "byte": 230,
-        "variable_name": "PHYSICAL_PLANES",
+        "variable_name": "PHYSICAL_PLANES(8)",
         "type": "Integer*2",
         "comment": "Physical planes that make up this logical plane"
       },

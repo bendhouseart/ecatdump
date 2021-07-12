@@ -3,8 +3,8 @@ import re
 import nibabel
 import os
 import json
-from ecatdump.helper_functions import compress, decompress
-from ecatdump.sidecar import sidecar_template_full, sidecar_template_short
+from helper_functions import compress, decompress
+from sidecar import sidecar_template_full, sidecar_template_short
 from dateutil import parser
 
 
@@ -62,6 +62,20 @@ class EcatDump:
         else:
             self.nifti_file = nifti_file
 
+    def make_nifti(self, output_path=None):
+        # read ecat
+        img = self.ecat
+        # convert to nifti
+        img_nii = nibabel.Nifti1Image(img.get_fdata(), img.affine)
+        img_nii.header.set_xyzt_units('mm', 'unknown')
+
+        # save nifti
+        if output_path is None:
+            output = self.nifti_file
+        else:
+            output = output_path
+        nibabel.save(img_nii, output)
+
     def display_ecat_and_nifti(self):
         print(f"ecat is {self.ecat_file}\nnifti is {self.nifti_file}")
 
@@ -73,7 +87,6 @@ class EcatDump:
         Extracts header and coverts it to sane type -> dictionary
         :return: self.header_info
         """
-
         header_entries = [entry for entry in self.ecat.header]
         for name in header_entries:
 

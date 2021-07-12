@@ -13,3 +13,5 @@ sample_files/
 
 .vscode/
 Pipfile*
+
+*.idea/*

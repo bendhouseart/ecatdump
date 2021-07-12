@@ -58,7 +58,7 @@ class EcatDump:
         self.ecat_info['affine'] = self.affine
 
         if not nifti_file:
-            self.nifti_file = os.path.splitext(self.ecat_file)[0] + ".nii.gz"
+            self.nifti_file = os.path.splitext(self.ecat_file)[0] + ".nii"
         else:
             self.nifti_file = nifti_file
 
@@ -75,6 +75,8 @@ class EcatDump:
         else:
             output = output_path
         nibabel.save(img_nii, output)
+
+        return output
 
     def display_ecat_and_nifti(self):
         print(f"ecat is {self.ecat_file}\nnifti is {self.nifti_file}")
@@ -190,9 +192,13 @@ class EcatDump:
 
         return destroyed
 
-    def show_sidecar(self):
+    def show_sidecar(self, output_path):
         self.prune_sidecar()
-        print(json.dumps(self.sidecar_template, indent=4))
+        if output_path:
+            with open(output_path, 'w') as outfile:
+                json.dump(self.sidecar_template, outfile, indent=4)
+        else:
+            print(json.dumps(self.sidecar_template, indent=4))
 
     def json_out(self):
         temp_json = json.dumps(self.ecat_info, indent=4)
